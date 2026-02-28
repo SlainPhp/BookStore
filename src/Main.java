@@ -10,7 +10,26 @@ public class Main {
         FileReader.fileReader(file);
         HashSet<String> lines = new HashSet<>(Files.readAllLines(file.toPath()));
         HashSet<Book> book = new HashSet<>();
-        Comparator<Book> bookComparator = Comparator.comparing(Book::getAuthor).thenComparing(Book::getPrice);
+        System.out.println("Как нужно отсортировать?");
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.nextLine();
+        if(answer.equals("По цене")) {
+            System.out.println("Сортировка по убыванию или по возрастанию?");
+            String priceAnswer = scanner.nextLine();
+            if(priceAnswer.equals("По убыванию")) {
+                Comparator<Book> bookComparator = Comparator.comparing(Book::getPrice).reversed();
+                List<Book> sortedList = new ArrayList<>(book);
+                sortedList.sort(bookComparator);
+                sortedList.forEach(System.out::println);
+
+            }else if(priceAnswer.equals("По возрастанию")){
+                Comparator<Book> bookComparator = Comparator.comparing(Book::getPrice);
+                List<Book> sortedList = new ArrayList<>(book);
+                sortedList.sort(bookComparator);
+                sortedList.forEach(System.out::println);
+            }
+
+        }
         Comparator<Magazine> magazineComparator = Comparator.comparing(Magazine::getPublisher).thenComparing(Magazine::getIssueNumber);
         ArrayList<Magazine> magazine = new ArrayList<>();
         for(String line : lines) {
