@@ -10,6 +10,8 @@ public class Main {
         FileReader.fileReader(file);
         HashSet<String> lines = new HashSet<>(Files.readAllLines(file.toPath()));
         HashSet<Book> book = new HashSet<>();
+        Comparator<Book> bookComparator = Comparator.comparing(Book::getAuthor).thenComparing(Book::getPrice);
+        Comparator<Magazine> magazineComparator = Comparator.comparing(Magazine::getPublisher).thenComparing(Magazine::getIssueNumber);
         ArrayList<Magazine> magazine = new ArrayList<>();
         for(String line : lines) {
             String[] parts = line.split(",");
@@ -22,7 +24,7 @@ public class Main {
                 int yearOfManufacture = Integer.parseInt(parts[5]);
                 String genre = parts[6];
                 book.add(new Book(price, quantity, name, author, yearOfManufacture, genre));
-                System.out.println(Arrays.toString(parts) + "Это книга");
+                System.out.println(Arrays.toString(parts));
             } else if (type.equals("журнал")) {
                 int price = Integer.parseInt(parts[1]);
                 int quantity = Integer.parseInt(parts[2]);
@@ -31,14 +33,10 @@ public class Main {
                 int issueNumber = Integer.parseInt(parts[5]);
                 int releaseDate = Integer.parseInt(parts[6]);
                 magazine.add(new Magazine(price, quantity, name, publisher, issueNumber, releaseDate));
-                System.out.println(Arrays.toString(parts) + "Это журнал");
+                System.out.println(Arrays.toString(parts));
             } else {
                 System.out.println("Нет такого");
             }
         }
-        Comparator<Book> bookComparator = Comparator
-                .comparing(Book::getName).thenComparingInt(Book::getPrice);
-                book.stream().sorted(bookComparator);
-        System.out.println();
     }
 }
